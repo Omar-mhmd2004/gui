@@ -1,0 +1,54 @@
+# Import the necessary modules
+from tkinter import Tk, Button, Entry
+
+# Create a function to evaluate the expression
+def evaluate():
+    try:
+        # Get the expression from the entry widget
+        expression = entry.get()
+
+        # Evaluate the expression and set the result in the entry widget
+        result = eval(expression)
+        entry.delete(0, 'end')
+        entry.insert('end', result)
+    except:
+        # If there is an error, clear the entry widget
+        entry.delete(0, 'end')
+        entry.insert('end', 'Error')
+
+# Create a function to add a character to the expression
+def add_char(char):
+    entry.insert('end', char)
+
+# Create a function to clear the entry widget
+def clear():
+    entry.delete(0, 'end')
+
+# Create the GUI window
+window = Tk()
+window.title('Simple Calculator')
+
+# Create the entry widget
+entry = Entry(window, bd=5)
+entry.grid(row=0, column=0, columnspan=4)
+
+# Create the buttons for numbers 0-9
+for i in range(10):
+    button = Button(window, text=str(i), command=lambda i=i: add_char(str(i)))
+    button.grid(row=(i+3)//3, column=(i+2)%3)
+
+# Create the buttons for operators +, -, *, and /
+operators = ['+', '-', '*', '/']
+for i, operator in enumerate(operators):
+    button = Button(window, text=operator, command=lambda operator=operator: add_char(operator))
+    button.grid(row=i+3, column=3)
+
+# Create the buttons for equals and clear
+equals_button = Button(window, text='=', command=evaluate)
+equals_button.grid(row=7, column=0, columnspan=2)
+
+clear_button = Button(window, text='C', command=clear)
+clear_button.grid(row=7, column=2, columnspan=2)
+
+# Start the GUI main loop
+window.mainloop()
